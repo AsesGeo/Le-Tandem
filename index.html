@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-          <title>Alexandre</title>
+          <title>Le Tandem</title>
 
          <!--Enlace a leaflet-->
          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
@@ -59,8 +59,8 @@
             //Construcción del mapa JS y definciión de mapas base
             var map = new L.Map('mapDiv',
                 
-              { center:[29.00867, -106.28791],
-                zoom:17
+              { center:[28.7, -106.311],
+                zoom:10
               });
             var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
             var subdomains = ['a', 'b' ,'c'];
@@ -90,13 +90,15 @@
             
         
         //CARGAR GEOJSON
-           var arbolesURL = "https://asesgeo.github.io/Alexandre-Pigchi/alexandre_comanche.geojson"
+           var arbolesURL = "https://asesgeo.github.io/Le-Tandem/Le tandem puntos.geojson"
            var proyectoURL = "https://asesgeo.github.io/Capasbase/Comanche.geojson"
+           var proyecto2URL="https://asesgeo.github.io/Capasbase/El herradero.geojson"
+           var proyecto3URL="https://asesgeo.github.io/Capasbase/Parcela Gali.geojson"
            var municipioURL = "https://asesgeo.github.io/Capasbase/limite_muni.geojson"
            var estadoURL = "https://asesgeo.github.io/Capasbase/limite_estatal.geojson"
            var paisURL = "https://asesgeo.github.io/Capasbase/limte_nac.geojson"
            
-        $.when($.getJSON(arbolesURL), $.getJSON(estadoURL),$.getJSON(municipioURL), $.getJSON(paisURL), $.getJSON(proyectoURL) ). done( function(data1, data2, data3, data4, data5) {
+        $.when($.getJSON(arbolesURL), $.getJSON(estadoURL),$.getJSON(municipioURL), $.getJSON(paisURL), $.getJSON(proyectoURL), $.getJSON(proyecto2URL), $.getJSON(proyecto3URL)). done( function(data1, data2, data3, data4, data5, data6, data7) {
    
 
           
@@ -132,7 +134,9 @@
           var geojson2 = new L.GeoJSON(data2, {style: style2});
           var geojson3 = new L.GeoJSON(data3, {style: style3});
           var geojson4 = new L.GeoJSON(data4, {style: style4});
-          var geojson5 = new L.GeoJSON(data5, {style: style5});
+          var geojson5 = new L.GeoJSON(data5, {style: style5, onEachFeature: onEachFeature2});
+          var geojson6 = new L.GeoJSON(data6, {style: style6});
+          var geojson7 = new L.GeoJSON(data7, {style: style7});
           
 
             //MOSTRAR CAPAS
@@ -140,6 +144,8 @@
             map.addLayer(geojson3);
             map.addLayer(geojson2);
             map.addLayer(geojson5);
+            map.addLayer(geojson6);
+            map.addLayer(geojson7);
             map.addLayer(geojson1);
             map.addLayer(clusterejemplo);
             
@@ -150,6 +156,8 @@
             var overlays = {
                 "Assigned trees": geojson1,
                 "Comanche":geojson5,
+                "El Herradero":geojson6,
+                "Gali":geojson7,
                 "Chihuahua municipality": geojson3,
                 "Chihuahua state": geojson2,
                 "Mexico": geojson4,
@@ -200,6 +208,37 @@
                 dashArray: "10, 10" 
                }
                 }
+                function style6 (feature){
+               return{
+                fillColor: "transparent",
+                fillOpacity:0.75,
+                color: "#FF0000",
+                weight: 3,
+                dashArray: "10, 10" 
+               }
+                }
+                function style7 (feature){
+               return{
+                fillColor: "transparent",
+                fillOpacity:0.75,
+                color: "#FF0000",
+                weight: 3,
+                dashArray: "10, 10" 
+               }
+                }
+          //popups
+          var popup2 = L.popup();
+                function onEachFeature2(feature, layer) {
+            	layer.on({click: onMapClick2})
+                }
+                function onMapClick2(f) {
+	                popup2
+		            .setLatLng(f.latlng)
+		            .setContent(f.target.feature.properties.Name)
+		            .openOn(map);
+                        };
+
+                        
           //RECUADRO DE INFORMACION
            
               let title = L.control({position: "bottomleft"});
