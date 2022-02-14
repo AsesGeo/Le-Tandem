@@ -135,8 +135,8 @@
           var geojson3 = new L.GeoJSON(data3, {style: style3});
           var geojson4 = new L.GeoJSON(data4, {style: style4});
           var geojson5 = new L.GeoJSON(data5, {style: style5, onEachFeature: onEachFeature2});
-          var geojson6 = new L.GeoJSON(data6, {style: style6});
-          var geojson7 = new L.GeoJSON(data7, {style: style7});
+          var geojson6 = new L.GeoJSON(data6, {style: style6, onEachFeature: onEachFeature3});
+          var geojson7 = new L.GeoJSON(data7, {style: style7, onEachFeature: onEachFeature4});
           
 
             //MOSTRAR CAPAS
@@ -238,7 +238,29 @@
 		            .openOn(map);
                         };
 
-                        
+
+                        var popup3 = L.popup();
+                function onEachFeature3(feature, layer) {
+            	layer.on({click: onMapClick2})
+                }
+                function onMapClick2(f) {
+	                popup3
+		            .setLatLng(f.latlng)
+		            .setContent(f.target.feature.properties.Name)
+		            .openOn(map);
+                        };
+
+
+        var popup3 = L.popup();
+                function onEachFeature4(feature, layer) {
+            	layer.on({click: onMapClick2})
+                }
+                function onMapClick2(f) {
+	                popup3
+		            .setLatLng(f.latlng)
+		            .setContent(f.target.feature.properties.Name)
+		            .openOn(map);
+                        };
           //RECUADRO DE INFORMACION
            
               let title = L.control({position: "bottomleft"});
@@ -257,7 +279,7 @@
               var north = L.control({position: "bottomright"});
             north.onAdd = function(map) {
                 var div = L.DomUtil.create("div", "info legend");
-                div.innerHTML = '<img src="https://asesgeo.github.io/Alexandre-Pigchi/Leyenda2.png" width="200" height="150" filter:alpha(opacity=40)>';
+                div.innerHTML = '<img src="https://asesgeo.github.io/Capasbase/Leyenda3.png" width="200" height="150" filter:alpha(opacity=40)>';
                 return div;
             }
             north.addTo(map);
